@@ -2,6 +2,7 @@ package com.myarin.temp.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,5 +52,19 @@ public class UserController {
         UserModel updatedUser = new UserModel(id, userDto.getName(), userDto.getEmail());
         userRepository.editUser(updatedUser);
         return "User updated successfully";
+    }
+
+    @DeleteMapping("users/{id}")
+    public String deleteUser(@PathVariable String id) {
+        UserModel userToDelete = userRepository.getUsers().stream()
+            .filter(userModel -> userModel.getId().equals(id))
+            .findFirst()
+            .orElse(null);
+        if (userToDelete != null) {
+            userRepository.removeUser(userToDelete);
+            return "User deleted successfully";
+        } else {
+            return "User not found";
+        }
     }
 }
