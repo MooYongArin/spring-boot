@@ -1,6 +1,10 @@
 package com.myarin.temp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 public class Message {
+
+    @JsonAlias("body")
     private String content;
 
     public Message(String content) {
